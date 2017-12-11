@@ -89,24 +89,20 @@ class ProductTable extends Component {
 
     render() {
         const details = this.props.value;
-        // const listItems = details.map((detail, index) => 
-        //     <ProductRow key={index} value={detail}/>
-        // );
+
         var category = '';
-        const listItems = details.map(function(detail, index) {
+        var showCategory = false;
+
+        const listItems = details.map((detail, index) => {
             if (detail.category !== category) {
+                showCategory = true;
                 category = detail.category;
-                return (
-                    <Table.Row>
-                        <Table.Cell colSpan="2">
-                            <ProductCategoryRow value={category}/>
-                        </Table.Cell>
-                    </Table.Row>
-                    // <ProductRow key={index} value={detail}/>
-                )
-            } 
-            return <ProductRow key={index} value={detail}/>
+            } else {
+                showCategory = false;
+            }
+            return <ProductRow key={index} value={detail} showCategory={showCategory}/>
         });
+        
 
         return(
             <Table celled color='red'>
@@ -116,9 +112,7 @@ class ProductTable extends Component {
                         <Table.HeaderCell>Price</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
-                <Table.Body>
-                    {listItems}
-                </Table.Body>
+                {listItems}
             </Table>
         );
     }
@@ -136,13 +130,28 @@ class ProductCategoryRow extends Component {
 
 class ProductRow extends Component {
     render() {
+        const showCategory = this.props.showCategory;
+        const {name, price, category} = this.props.value;
         return(
-            // <Table.Body>
-            <Table.Row>
-                <Table.Cell>{this.props.value.name}</Table.Cell>
-                <Table.Cell>{this.props.value.price}</Table.Cell>
-            </Table.Row>
-            // </Table.Body>
+            (showCategory)?
+                <Table.Body>
+                    <Table.Row>
+                        <Table.Cell colSpan="2">
+                            <ProductCategoryRow value={category}/>
+                        </Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell>{name}</Table.Cell>
+                        <Table.Cell>{price}</Table.Cell>
+                    </Table.Row>
+                </Table.Body>
+            :
+                <Table.Body>
+                    <Table.Row>
+                        <Table.Cell>{name}</Table.Cell>
+                        <Table.Cell>{price}</Table.Cell>
+                    </Table.Row>
+                </Table.Body>
         );
     }
 }
