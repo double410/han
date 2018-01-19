@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import FilterableProductTable from './components/FilterableProductTable';
 import NavigationBar from './components/NavigationBar';
+import HomeworkTable from './components/HomeworkTable';
 import { Container, Header } from 'semantic-ui-react';
 
 class App extends Component {
@@ -12,9 +13,10 @@ class App extends Component {
       <Container column={2}>
         <NavigationBar />
         <Header as='h2'>
-          Stock
+          Homework
         </Header>
-        <FilterableProductTable />
+        {/* <FilterableProductTable /> */}
+        <HomeworkTable />
       </Container>
     );
   }

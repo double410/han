@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Table, Container } from 'semantic-ui-react';
+import { Form, Table, Segment, Search, Checkbox } from 'semantic-ui-react';
 
 export default class FilterableProductTable extends Component {
     constructor(props) {
@@ -46,13 +46,14 @@ export default class FilterableProductTable extends Component {
         
 
         return(
-            <Container>
+            <Segment>
                 <SearchBar qry_str={this.state.qry_str} onQuery={this.handleQuery}/>
                 <ProductTable value={qry_stock}/>
-            </Container>
+            </Segment>
         );
     }
 }
+
 
 class SearchBar extends Component {
     constructor(props) {
@@ -76,6 +77,14 @@ class SearchBar extends Component {
     render() {
         const hasStock = this.props.qry_str.hasStock;
         const prodName = this.props.qry_str.prodName;
+        const lst_stock = [
+            {category: "Sporting Goods", price: "$49.99", stocked: true, name: "Football"},
+            {category: "Sporting Goods", price: "$9.99", stocked: true, name: "Baseball"},
+            {category: "Sporting Goods", price: "$29.99", stocked: false, name: "Basketball"},
+            {category: "Electronics", price: "$99.99", stocked: true, name: "iPod Touch"},
+            {category: "Electronics", price: "$399.99", stocked: false, name: "iPhone 5"},
+            {category: "Electronics", price: "$199.99", stocked: true, name: "Nexus 7"}
+          ];
         return(
             <Form>
                 <Form.Input id='search_prod' type='text' placeholder='Search...' width='4' value={prodName} onChange={this.handleChange}/>
@@ -150,7 +159,7 @@ class ProductRow extends Component {
                     <Table.Row>
                         <Table.Cell>{name}</Table.Cell>
                         <Table.Cell>{price}</Table.Cell>
-                    </Table.Row>
+                    </Table.Row>                    
                 </Table.Body>
         );
     }
