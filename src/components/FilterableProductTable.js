@@ -8,7 +8,7 @@ export default class FilterableProductTable extends Component {
         this.state = {
             qry_str:{
                 prodName:'', 
-                hasStock:true
+                hasStock:false
             }
         };
     }
@@ -78,8 +78,8 @@ class SearchBar extends Component {
         const prodName = this.props.qry_str.prodName;
         return(
             <Form>
-                <Form.Input type='text' placeholder='Search...' width='4' value={prodName} onChange={this.handleChange}/>
-                <Form.Checkbox label='Only show products in stock' checked={hasStock} onChange={this.handleClick} />
+                <Form.Input id='search_prod' type='text' placeholder='Search...' width='4' value={prodName} onChange={this.handleChange}/>
+                <Form.Checkbox id='search_stock' name='stock' label='Only show products in stock' checked={hasStock} onChange={this.handleClick} />
             </Form>
         );
     }
