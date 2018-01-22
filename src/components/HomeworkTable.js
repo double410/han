@@ -2,22 +2,34 @@ import 'react-dates/initialize';
 import React, { Component } from 'react';
 import { Form, Button, Card, Header, Grid, List } from "semantic-ui-react";
 import { SingleDatePicker } from "react-dates";
-import homework from "../data/sample.json";
-import 'react-dates/lib/css/_datepicker.css';
+import homeworkInit from "../data/sample.json";
+import Client from "../utils/Client"
 import moment from 'moment';
+
 
 class HomeworkTable extends Component {
     constructor(props) {
         super(props);
-        // const now = Date.now();
-        displayFormat: () => moment.localeData().longDateFormat('L'),
+        this.handleSearchClick = this.handleSearchClick.bind(this);
         this.state = {
-            date: props.initialDate,
-        };
+            date: moment(),
+            homework: homeworkInit
+        };    
+    }
+
+    handleSearchClick = e => {
+        Client.search(homework => {
+            this.setState({
+                homework: homework
+            });
+        });
     }
     // moment.locale('cn');
 
     render() {
+        const { homework } = this.state;
+        console.log(homework);
+        
         const items = homework.classes.map((item, index) => {
             let contents = item.content.split('\n');
             if (Array.isArray(contents)) {
@@ -44,17 +56,22 @@ class HomeworkTable extends Component {
 
         return (
             <Grid column={1}>
-                <Grid.Column width={10}>
+                <Grid.Column>
                     <Form>
                         {/* <Form.Input label='请选择日期：' placeholder='dd/mm/yyyy' /> */}
-                        <SingleDatePicker
-                            date={this.state.date} // momentPropTypes.momentObj or null
-                            onDateChange={date => this.setState({ date })} // PropTypes.func.isRequired
-                            focused={this.state.focused} // PropTypes.bool
-                            onFocusChange={({ focused }) => this.setState({ focused })} // PropTypes.func.isRequired
-                            // displayFormat={displayFormat}
-                        />
-                        <Button color='teal' type='submit'>查询</Button>
+                        <Form.Group>
+                            <SingleDatePicker                                
+                                date={this.state.date} // momentPropTypes.momentObj or null
+                                onDateChange={date => this.setState({ date })} // PropTypes.func.isRequired
+                                focused={this.state.focused} // PropTypes.bool
+                                onFocusChange={({ focused }) => this.setState({ focused })} // PropTypes.func.isRequired
+                                numberOfMonths={1}
+                                isOutsideRange={()=>null}
+                                monthFormat = "YYYY[年]MMMM"
+                                displayFormat={() => moment.localeData().longDateFormat('L')}
+                            />
+                            <Button color='teal' type='submit' onClick={this.handleSearchClick}>查询</Button>
+                        </Form.Group>
                     </Form>
                     <Header color='teal'>{homework.title}</Header>
                     <Card fluid color='teal'>
