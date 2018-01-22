@@ -13,7 +13,8 @@
     "semantic-ui-css": "^2.2.12",
     "semantic-ui-react": "^0.77.0",
     "serverless": "^1.25.0",
-    "validator": "^9.1.2"
+    "validator": "^9.1.2",
+    "webpack": "^3.10.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -34,5 +35,6 @@
     "eslint-plugin-standard": "^3.0.1",
     "chai": "^4.1.2",
     "mocha": "^4.0.1"
-  }
+  },
+  "proxy": "http://168.63.207.74"
 }
