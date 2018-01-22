@@ -2,21 +2,33 @@ import 'react-dates/initialize';
 import React, { Component } from 'react';
 import { Form, Button, Card, Header, Grid, List } from "semantic-ui-react";
 import { SingleDatePicker } from "react-dates";
-import homework from "../data/sample.json";
+import homeworkInit from "../data/sample.json";
+import Client from "../utils/Client"
 import moment from 'moment';
 
 
 class HomeworkTable extends Component {
     constructor(props) {
         super(props);
-        moment.locale('zh-cn');
-        console.log(moment([2015, 1, 2]).fromNow());
+        this.handleSearchClick = this.handleSearchClick.bind(this);
         this.state = {
             date: moment(),
-        };
+            homework: homeworkInit
+        };    
+    }
+
+    handleSearchClick = e => {
+        Client.search(homework => {
+            this.setState({
+                homework: homework
+            });
+        });
     }
 
     render() {
+        const { homework } = this.state;
+        console.log(homework);
+        
         const items = homework.classes.map((item, index) => {
             let contents = item.content.split('\n');
             if (Array.isArray(contents)) {
@@ -57,7 +69,7 @@ class HomeworkTable extends Component {
                                 monthFormat = "YYYY[年]MMMM"
                                 displayFormat={() => moment.localeData().longDateFormat('L')}
                             />
-                            <Button color='teal' type='submit'>查询</Button>
+                            <Button color='teal' type='submit' onClick={this.handleSearchClick}>查询</Button>
                         </Form.Group>
                     </Form>
                     <Header color='teal'>{homework.title}</Header>
