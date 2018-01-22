@@ -1,18 +1,21 @@
 import 'react-dates/initialize';
 import React, { Component } from 'react';
 import { Form, Button, Card, Header, Grid, List } from "semantic-ui-react";
-import { SingleDatePicker, DayPickerRangeController } from "react-dates";
+import { SingleDatePicker } from "react-dates";
 import homework from "../data/sample.json";
 import 'react-dates/lib/css/_datepicker.css';
+import moment from 'moment';
 
 class HomeworkTable extends Component {
     constructor(props) {
         super(props);
         // const now = Date.now();
+        displayFormat: () => moment.localeData().longDateFormat('L'),
         this.state = {
             date: props.initialDate,
         };
     }
+    // moment.locale('cn');
 
     render() {
         const items = homework.classes.map((item, index) => {
@@ -44,7 +47,13 @@ class HomeworkTable extends Component {
                 <Grid.Column width={10}>
                     <Form>
                         {/* <Form.Input label='请选择日期：' placeholder='dd/mm/yyyy' /> */}
-                        <SingleDatePicker date={this.state.date} onDateChange={date => this.setState({ date })} onFocusChange={focusedInput => this.setState({ focusedInput })} />
+                        <SingleDatePicker
+                            date={this.state.date} // momentPropTypes.momentObj or null
+                            onDateChange={date => this.setState({ date })} // PropTypes.func.isRequired
+                            focused={this.state.focused} // PropTypes.bool
+                            onFocusChange={({ focused }) => this.setState({ focused })} // PropTypes.func.isRequired
+                            // displayFormat={displayFormat}
+                        />
                         <Button color='teal' type='submit'>查询</Button>
                     </Form>
                     <Header color='teal'>{homework.title}</Header>
